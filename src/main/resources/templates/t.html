@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../static/images/favicon.ico" th:href="@{/images/me.jpg}" rel="icon" type="image/x-ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+
+    <style>
+        .ptext {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 图片文本框 -->
+<input type="file" class="form-control" id="file" name="file" th:onchange="javascript:preview(this)">
+<!-- 这个是在上传之前回显图片图片展示 -->
+<div id="preview">
+    　　<!--这个是为了将页面返回的图片展示出来的.默认隐藏-->
+    　　<img style="width: 100px; height: 100px;display:none" id="imgHidden" />
+</div>
+
+<div class="ptext" style="width: 100px;" onmouseover="me(this)">ssssssssssssssssssssssss</div>
+
+<!-- 提交...这里pageIndex和pageSize可传可不传,主要取决于提交之后是否需要回到当前页面. -->
+<button type="submit" th:onclick="javascript:submitForm([[${pageIndex}]],[[${pageSize}]])" class="btn btn-primary">提交</button>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script>
+    function submitForm(pageIndex, pageSize) {
+        var formData = new FormData(); //将需要提交的参数封装起来
+        var zswb = $("#file").val();    //获取file中的内容,看是否有值
+        debugger
+        if (zswb == '' || zswb.length < 1) {    //没有file提交的时候走的接口
+            $.ajax({
+                url : '/editMovieWithoutFile',
+                type : 'post',
+                data : formData,
+                processData : false,
+                contentType : false,
+                success : function(value) {
+                    debugger
+                    var result = JSON.parse(value);
+                    if (result.state > 0 ) {
+                        alert("图片添加成功，图片地址是"+result.webImgUrl);
+                    } else {
+                        Lobibox.alert('error', {msg : "媒资信息更新失败!!!"});
+                    }
+                }
+            });
+        } else {
+            debugger
+            //有file提交的时候走的接口
+            formData.append("file", $("#file")[0].files[0]);
+            $.ajax({
+                url : '/editMovieInfo',
+                type : 'post',
+                data : formData,
+                processData : false,
+                contentType : false,
+                success : function(value) {
+                    debugger
+                    var result = JSON.parse(value);
+                    if (result == 'true') {
+                        window.location.href = "/index?pageIndex=" + pageIndex+ "&pageSize=" + pageSize;
+                    } else {
+                        Lobibox.alert('error', {msg : "媒资信息更新失败!!!"});
+                    }
+                }
+            });
+        }
+    }
+    //图片回显:
+    function preview(file) {
+        $("#imgHidden").css("display", "none");
+        var prevDiv = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(evt) {
+                prevDiv.innerHTML = '<img style="width: 100px;height: 100px;" src="' + evt.target.result + '" />';
+            }
+            reader.readAsDataURL(file.files[0]);
+        } else {
+            prevDiv.innerHTML = '<div class="img" style="width: 100px;height:100px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' +
+                file.value + '\'"></div>';
+        }
+    }
+
+    function me(value) {
+        var val = ($(value).text());
+        var span = document.createElement("span");
+        span.setAttribute("titlt", val);
+        span.innerHTML = val;
+        console.log(span.outerHTML)
+        return span.outerHTML;
+    }
+
+</script>
+</body>
+
+</html>

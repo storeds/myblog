@@ -1,0 +1,93 @@
+/*
+*  author: AUI
+*  base.css
+*  http://azenui.com/
+*  http://a-ui.cn/
+*/
+
+
+
+
+
+
+
+* {
+
+    /*box-sizing: border-box;*/
+}
+
+
+
+
+
+img {
+    border: 0;
+}
+
+
+.aui-check-text {
+    margin: 0;
+    padding: 0;
+}
+
+.aui-delete-text {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+.aui-btn-default button {
+    outline: 0;
+}
+
+
+
+img {
+    border: 0;
+}
+
+
+
+
+
+
+em {
+    font-style: normal;
+}
+
+.fontsize {
+    font-family: "microsoft yahei";
+    font-weight: 100;
+}
+
+table tr:nth-child(odd) {
+    background: #F4F4F4;
+}
+
+table td:nth-child(even) {
+    color: #FFCC00;
+}
+
+table tr:nth-child(2) {
+    background: #fff;
+    color: #888;
+}
+
+table.aui-tab-data tr {
+    background: #fff;
+}
+
+table.aui-tab-data tr:nth-child(odd) {
+    background-color: #F5F5F5;
+}
+
+table.aui-tab-data tr th {
+    padding: 10px;
+}
+
+table.aui-tab-data tr td {
+    padding: 10px;
+}

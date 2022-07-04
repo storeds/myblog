@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.star.dao.TImgMapper">
+
+    <resultMap id="BaseResultMap" type="com.star.entity.Img">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+            <result property="imgUrl" column="img_url" jdbcType="VARCHAR"/>
+            <result property="webImgUrl" column="web_img_url" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="imgName" column="img_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,uuid,img_url,
+        web_img_url,create_time,update_time,
+        img_name
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_img
+        where  id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimary" parameterType="Img" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_img
+        <where>
+            <if test="id != null">id = #{id,jdbcType=INTEGER}</if>
+            <if test="uuid != null">uuid = #{uuid,jdbcType=VARCHAR}</if>
+            <if test="imgUrl != null">img_url = #{imgUrl,jdbcType=VARCHAR}</if>
+            <if test="webImgUrl != null">web_img_url = #{webImgUrl,jdbcType=VARCHAR}</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=DATE}</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>
+            <if test="imgName != null">img_name = #{imgName,jdbcType=VARCHAR}</if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_img
+        where  id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.star.entity.Img" useGeneratedKeys="true">
+        insert into t_img
+        ( id,uuid,img_url
+        ,web_img_url,create_time,update_time
+        ,img_name)
+        values (#{id,jdbcType=INTEGER},#{uuid,jdbcType=VARCHAR},#{imgUrl,jdbcType=VARCHAR}
+        ,#{webImgUrl,jdbcType=VARCHAR},#{createTime,jdbcType=DATE},#{updateTime,jdbcType=TIMESTAMP}
+        ,#{imgName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.star.entity.Img" useGeneratedKeys="true">
+        insert into t_img
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="uuid != null">uuid,</if>
+                <if test="imgUrl != null">img_url,</if>
+                <if test="webImgUrl != null">web_img_url,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="updateTime != null">update_time,</if>
+                <if test="imgName != null">img_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null"> #{id,jdbcType=INTEGER},</if>
+                <if test="uuid != null"> #{uuid,jdbcType=VARCHAR},</if>
+                <if test="imgUrl != null"> #{imgUrl,jdbcType=VARCHAR},</if>
+                <if test="webImgUrl != null"> #{webImgUrl,jdbcType=VARCHAR},</if>
+                <if test="createTime != null"> #{createTime,jdbcType=DATE},</if>
+                <if test="updateTime != null"> #{updateTime,jdbcType=TIMESTAMP},</if>
+                <if test="imgName != null"> #{imgName,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.star.entity.Img">
+        update t_img
+        <set>
+                <if test="uuid != null">
+                    uuid = #{uuid,jdbcType=VARCHAR},
+                </if>
+                <if test="imgUrl != null">
+                    img_url = #{imgUrl,jdbcType=VARCHAR},
+                </if>
+                <if test="webImgUrl != null">
+                    web_img_url = #{webImgUrl,jdbcType=VARCHAR},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=DATE},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="imgName != null">
+                    img_name = #{imgName,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.star.entity.Img">
+        update t_img
+        set 
+            uuid =  #{uuid,jdbcType=VARCHAR},
+            img_url =  #{imgUrl,jdbcType=VARCHAR},
+            web_img_url =  #{webImgUrl,jdbcType=VARCHAR},
+            create_time =  #{createTime,jdbcType=DATE},
+            update_time =  #{updateTime,jdbcType=TIMESTAMP},
+            img_name =  #{imgName,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>
